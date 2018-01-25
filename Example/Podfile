@@ -1,0 +1,15 @@
+use_frameworks!
+
+target 'ICResourceKit_Example' do
+  pod 'ICResourceKit', :path => '../'
+
+  target 'ICResourceKit_Tests' do
+    inherit! :search_paths
+
+    pod 'ICObserver', '0.1.2'
+
+    pod 'GDataXML-HTML', :git => 'https://github.com/graetzer/GDataXML-HTML.git', :branch=>'master'
+
+    pod 'ICFoundation', :path => './../../ICFoundation'
+  end
+end
