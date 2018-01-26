@@ -14,9 +14,9 @@ public enum ICThemeMode : Int {
     
     case none
     
-    case classic
+    case day
     
-    case nightMode    
+    case night
 }
 
 public enum ICThemeType : Int {
@@ -28,7 +28,7 @@ public enum ICThemeType : Int {
     case custom
 }
 
-class ICThemeInfo: NSObject {
+public class ICThemeInfo: NSObject {
     
     private(set) var mode:ICThemeMode
     private(set) var type:ICThemeType
@@ -36,7 +36,7 @@ class ICThemeInfo: NSObject {
     private(set) var name:String
     private(set) var logo:UIImage?
 
-    var colorXmlFilename:String = "info.xml"
+    var colorXmlFilename:String = "color.xml"
     private(set) var baseDir:String // Theme folder contains: image、info.xml、logo
 
     private(set) var presetDir:String?
@@ -83,6 +83,7 @@ class ICThemeInfo: NSObject {
         }
         
         self.colorXmlDoc = nil;
+        self.isLoaded = false
     }
     
     //------------------- Localization Key ----------------------
@@ -172,7 +173,7 @@ class ICThemeInfo: NSObject {
             return nil
         }
         
-        let xpath = "//Skin/Color/\(key)"
+        let xpath = "//Color/\(key)"
         
         var xmlNode:GDataXMLNode?
         do {

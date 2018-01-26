@@ -9,13 +9,12 @@
 import UIKit
 import ICFoundation
 
-class ICResEnvironmentConfigurator: NSObject {
-    static let shared = ICResEnvironmentConfigurator()
+public class ICResEnvironmentConfigurator: NSObject {
+    public static let shared = ICResEnvironmentConfigurator()
     
-    var relativeResMainPath: String = "res"
-    var relativePresetThemeMainPath: String = "res/Themes/"
+    public var relativeResMainPath: String = ""
 
-    var fullResMainPath: String {
+    public var fullResMainPath: String {
         get {
             if let rPath = Bundle.main.resourcePath {
                 return rPath.ic_stringByAppendingPathComponent(path: self.relativeResMainPath)
@@ -23,7 +22,20 @@ class ICResEnvironmentConfigurator: NSObject {
             return ""
         }
     }
+    
+    var relativePresetThemeMainPath: String {
+        get {
+            return self.relativeResMainPath.ic_stringByAppendingPathComponent(path: "Themes")
+        }
+    }
+    
+    var languageMainPath: String {
+        get {
+            return self.fullResMainPath.ic_stringByAppendingPathComponent(path: "Languages")
+        }
+    }
+    
 
-    var downloadedSkinMainPath: String?
+    public var downloadedSkinMainPath: String?
 
 }

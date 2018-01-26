@@ -10,21 +10,21 @@ import UIKit
 import ICObserver
 import ICFoundation
 
-enum ICPresetTheme: String {
-    case classic = "Classic"
-    case nightMode = "NightMode"
+public enum ICPresetTheme: String {
+    case day = "Day"
+    case night = "Night"
 }
 
-protocol ICThemeManagerObserver {
-    func willThemeChage()
-    func didThemeChaged()
+@objc public protocol ICThemeManagerObserver {
+    func willThemeChange()
+    func didThemeChanged()
 }
 
-class ICThemeManager: ICObserverTable {
-    static let shared = ICThemeManager()
+public class ICThemeManager: ICObserverTable {
+    public static let shared = ICThemeManager()
     
     private(set) lazy var baseTheme:ICThemeInfo = {
-        let themeInfo = ICThemeInfo(name: ICPresetTheme.classic.rawValue, mode: .classic, type: .preset, baseDir: ICResEnvironmentConfigurator.shared.fullResMainPath.ic_stringByAppendingPathComponent(path: "Themes/Classic"))
+        let themeInfo = ICThemeInfo(name: ICPresetTheme.day.rawValue, mode: .day, type: .preset, baseDir: ICResEnvironmentConfigurator.shared.fullResMainPath.ic_stringByAppendingPathComponent(path: "Themes/Day"))
         return themeInfo
     }()
     
@@ -57,11 +57,11 @@ class ICThemeManager: ICObserverTable {
         
         var nextTheme:ICThemeInfo?
         switch named {
-        case ICPresetTheme.classic.rawValue:
+        case ICPresetTheme.day.rawValue:
             nextTheme = self.baseTheme
             break
-        case ICPresetTheme.nightMode.rawValue:
-            nextTheme = ICThemeInfo(name: ICPresetTheme.nightMode.rawValue, mode: .nightMode, type: .preset, baseDir: ICResEnvironmentConfigurator.shared.fullResMainPath.ic_stringByAppendingPathComponent(path: "Themes/NightMode"))
+        case ICPresetTheme.night.rawValue:
+            nextTheme = ICThemeInfo(name: ICPresetTheme.night.rawValue, mode: .night, type: .preset, baseDir: ICResEnvironmentConfigurator.shared.fullResMainPath.ic_stringByAppendingPathComponent(path: "Themes/Night"))
             break
         default:
             if let downloadedPath = ICResEnvironmentConfigurator.shared.downloadedSkinMainPath {
@@ -69,7 +69,7 @@ class ICThemeManager: ICObserverTable {
                 if FileManager.default.fileExists(atPath: path) {
                     
                     // Maybe we should check whether data is valid
-                    nextTheme = ICThemeInfo(name: named, mode: .classic, type: .download, baseDir: path)
+                    nextTheme = ICThemeInfo(name: named, mode: .day, type: .download, baseDir: path)
                 }
             }
         }
@@ -83,15 +83,19 @@ class ICThemeManager: ICObserverTable {
     
     private func notifyObserversThemeWillChanged() {
         self.enumerateObserverOnMainThread { (observer) in
-            let ob:ICThemeManagerObserver = observer as! ICThemeManagerObserver
-            ob.willThemeChage()
+            let ob:NSObject = observer as! NSObject
+            if ob.responds(to: #selector(ICThemeManagerObserver.willThemeChange)) {
+                ob.perform(#selector(ICThemeManagerObserver.willThemeChange))
+            }
         }
     }
     
     private func notifyObserversThemeDidChanged() {
         self.enumerateObserverOnMainThreadAsync { (observer) in
-            let ob:ICThemeManagerObserver = observer as! ICThemeManagerObserver
-            ob.didThemeChaged()
+            let ob:NSObject = observer as! NSObject
+            if ob.responds(to: #selector(ICThemeManagerObserver.didThemeChanged)) {
+                ob.perform(#selector(ICThemeManagerObserver.didThemeChanged))
+            }
         }
     }
 }

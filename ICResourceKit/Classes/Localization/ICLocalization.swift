@@ -15,24 +15,24 @@ extension NSNotification.Name {
 
 }
 
-class ICLocalization: NSObject {
-    static let shared = ICLocalization()
+public class ICLocalization: NSObject {
+    public static let shared = ICLocalization()
     
     private let user_set_region_key = "user_set_region_key"
     private let user_set_language_key = "user_set_language_key"
 
     private(set) var regionCode:String = ""     // uppercase string
-    private(set) var languageCode:String = "" {
-        didSet {
+    private(set) var languageCode:String = ""
+    var languageCodeShort:String {
+        get {
             let lanObjs = self.languageCode.components(separatedBy: "-")
             if lanObjs.count > 1 {
-                self.languageCodeShort = lanObjs[0].lowercased()
+                return lanObjs[0].lowercased()
             } else {
-                self.languageCodeShort = self.languageCode.lowercased()
+                return self.languageCode.lowercased()
             }
         }
     }
-    private(set) var languageCodeShort:String = ""
 
     override init() {
         super.init()

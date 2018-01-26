@@ -11,18 +11,18 @@ import ICObserver
 import ICFoundation
 import GDataXML_HTML
 
-protocol ICResTextManagerObserver {
-    func willLanguageChage()
-    func didLanguageChaged()
+@objc public protocol ICResTextManagerObserver {
+    func willLanguageChange()
+    func didLanguageChanged()
 }
 
-class ICResTextManager: ICObserverTable {
-    static let shared = ICResTextManager()
+public class ICResTextManager: ICObserverTable {
+    public static let shared = ICResTextManager()
 
     private var textXmlDoc:GDataXMLDocument?
 
     private lazy var languageResMainPath:String = {
-        return ICResEnvironmentConfigurator.shared.fullResMainPath.ic_stringByAppendingPathComponent(path: "Languages")
+        return ICResEnvironmentConfigurator.shared.languageMainPath
     }()
     
     override init() {
@@ -76,7 +76,7 @@ class ICResTextManager: ICObserverTable {
             return nil
         }
         
-        let xpath = "//Text/\(key)"
+        let xpath = "//Language/\(key)"
         
         var xmlNode:GDataXMLNode?
         do {
@@ -94,15 +94,19 @@ class ICResTextManager: ICObserverTable {
     
     private func notifyObserversLanguageWillChanged() {
         self.enumerateObserverOnMainThread { (observer) in
-            let ob:ICResTextManagerObserver = observer as! ICResTextManagerObserver
-            ob.willLanguageChage()
+            let ob:NSObject = observer as! NSObject
+            if ob.responds(to: #selector(ICResTextManagerObserver.willLanguageChange)) {
+                ob.perform(#selector(ICResTextManagerObserver.willLanguageChange))
+            }
         }
     }
     
     private func notifyObserversLanguageDidChanged() {
         self.enumerateObserverOnMainThreadAsync { (observer) in
-            let ob:ICResTextManagerObserver = observer as! ICResTextManagerObserver
-            ob.didLanguageChaged()
+            let ob:NSObject = observer as! NSObject
+            if ob.responds(to: #selector(ICResTextManagerObserver.didLanguageChanged)) {
+                ob.perform(#selector(ICResTextManagerObserver.didLanguageChanged))
+            }
         }
     }
 }

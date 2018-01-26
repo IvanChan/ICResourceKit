@@ -13,18 +13,28 @@ extension UIView {
     private static let ICBackgroundColorResKey = "ICBackgroundColorKey"
 
     internal func ic_resHash() -> [String:Any] {
-        var resHash:[String:Any]? = objc_getAssociatedObject(self, "ICResHashAssociatedKey") as? [String:Any]
+        
+        let key: UnsafeRawPointer! = UnsafeRawPointer.init(bitPattern: "ICResHashAssociatedKey".hashValue)
+
+        var resHash:[String:Any]? = objc_getAssociatedObject(self, key) as? [String:Any]
         if resHash == nil {
             resHash = [:]
-            objc_setAssociatedObject(self, "ICResHashAssociatedKey", resHash, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+            objc_setAssociatedObject(self, key, resHash, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             ICThemeManager.shared.addObserver(self)
         }
         return resHash!
     }
     
+    internal func updateHash(_ resHash:[String:Any]) {
+        let key: UnsafeRawPointer! = UnsafeRawPointer.init(bitPattern: "ICResHashAssociatedKey".hashValue)
+        objc_setAssociatedObject(self, key, resHash, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    }
+    
     internal func ic_setResValue(_ value:Any, forKey:String) {
         var resHash = self.ic_resHash()
         resHash[forKey] = value
+        
+        self.updateHash(resHash)
     }
     
     internal func ic_resValue(_ forKey:String) -> Any? {
@@ -65,32 +75,34 @@ extension UIButton {
         return hash!
     }
     
-    internal func ic_saveResKey(_ key:String, forHash: [UInt:String]) {
-        var hash = forHash
+    internal func ic_saveResKey(_ key:String, forHashKey: String) {
+        var hash = self.ic_resStateHash(forHashKey)
         hash[state.rawValue] = key
+        
+        self.ic_setResValue(hash, forKey: forHashKey)
     }
     
     //-------------- title -----------------
     public func setTitle(forICResName key:String, state: UIControlState) {
-        self.ic_saveResKey(key, forHash: self.ic_resStateHash(UIButton.ICTitleHashKey))
+        self.ic_saveResKey(key, forHashKey: UIButton.ICTitleHashKey)
         self.setTitle(resGetText(key), for: state)
     }
 
     //-------------- title color -----------------
     public func setTitleColor(forICResName key:String, state: UIControlState) {
-        self.ic_saveResKey(key, forHash: self.ic_resStateHash(UIButton.ICTitleColorHashKey))
+        self.ic_saveResKey(key, forHashKey: UIButton.ICTitleColorHashKey)
         self.setTitleColor(resGetColor(key), for: state)
     }
     
     //-------------- image -----------------
     public func setImage(forICResName key:String, state: UIControlState) {
-        self.ic_saveResKey(key, forHash: self.ic_resStateHash(UIButton.ICImageHashKey))
+        self.ic_saveResKey(key, forHashKey: UIButton.ICImageHashKey)
         self.setImage(resGetImage(key), for: state)
     }
     
     //-------------- background image -----------------
     public func setBackgroundImage(forICResName key:String, state: UIControlState) {
-        self.ic_saveResKey(key, forHash: self.ic_resStateHash(UIButton.ICBgImageHashKey))
+        self.ic_saveResKey(key, forHashKey: UIButton.ICBgImageHashKey)
         self.setBackgroundImage(resGetImage(key), for: state)
     }
     
@@ -134,6 +146,7 @@ extension UILabel {
     public func setText(forICResName key:String) {
         self.ic_setResValue(key, forKey: UILabel.ICTextResKey)
         self.text = resGetText(key)
+        ICResTextManager.shared.addObserver(self)
     }
 
     override func didThemeChanged() {
@@ -168,6 +181,8 @@ extension UITextField {
     public func setText(forICResName key:String) {
         self.ic_setResValue(key, forKey: UITextField.ICTextResKey)
         self.text = resGetText(key)
+        
+        ICResTextManager.shared.addObserver(self)
     }
     
     override func didThemeChanged() {
