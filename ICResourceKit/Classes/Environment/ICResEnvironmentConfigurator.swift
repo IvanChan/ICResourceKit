@@ -17,7 +17,7 @@ public class ICResEnvironmentConfigurator: NSObject {
     public var fullResMainPath: String {
         get {
             if let rPath = Bundle.main.resourcePath {
-                return rPath.ic_stringByAppendingPathComponent(path: self.relativeResMainPath)
+                return rPath.ic.stringByAppendingPathComponent(path: self.relativeResMainPath)
             }
             return ""
         }
@@ -25,13 +25,13 @@ public class ICResEnvironmentConfigurator: NSObject {
     
     var relativePresetThemeMainPath: String {
         get {
-            return self.relativeResMainPath.ic_stringByAppendingPathComponent(path: "Themes")
+            return self.relativeResMainPath.ic.stringByAppendingPathComponent(path: "Themes")
         }
     }
     
     var languageMainPath: String {
         get {
-            return self.fullResMainPath.ic_stringByAppendingPathComponent(path: "Languages")
+            return self.fullResMainPath.ic.stringByAppendingPathComponent(path: "Languages")
         }
     }
     

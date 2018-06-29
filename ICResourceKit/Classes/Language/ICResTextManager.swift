@@ -46,14 +46,14 @@ public class ICResTextManager: ICObserverTable {
     private func reloadAllText() {
         var usingBase = false
         let xmlName = "\(ICLocalization.shared.languageCodeShort).xml"
-        var xmlPath = self.languageResMainPath.ic_stringByAppendingPathComponent(path: xmlName)
+        var xmlPath = self.languageResMainPath.ic.stringByAppendingPathComponent(path: xmlName)
         if !FileManager.default.fileExists(atPath: xmlPath) {
-            xmlPath = self.languageResMainPath.ic_stringByAppendingPathComponent(path: "base.xml")
+            xmlPath = self.languageResMainPath.ic.stringByAppendingPathComponent(path: "base.xml")
             usingBase = true
         }
         
         if !self.loadTextXml(path: xmlPath) && !usingBase {
-            let _ = self.loadTextXml(path: self.languageResMainPath.ic_stringByAppendingPathComponent(path: "base.xml"))
+            let _ = self.loadTextXml(path: self.languageResMainPath.ic.stringByAppendingPathComponent(path: "base.xml"))
         }
     }
     

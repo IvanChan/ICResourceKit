@@ -53,7 +53,7 @@ public class ICThemeInfo: NSObject {
         self.baseDir = baseDir
         
         if self.type == .preset {
-            self.presetDir = ICResEnvironmentConfigurator.shared.relativePresetThemeMainPath.ic_stringByAppendingPathComponent(path: self.name)
+            self.presetDir = ICResEnvironmentConfigurator.shared.relativePresetThemeMainPath.ic.stringByAppendingPathComponent(path: self.name)
         }
         
         super.init()
@@ -93,9 +93,9 @@ public class ICThemeInfo: NSObject {
             return key
         }
         
-        let filename = key.ic_lastPathComponent
-        let regionKey = key.ic_stringByDeletingLastPathComponent.ic_stringByAppendingPathComponent(path: regionCode)
-        return regionKey.ic_stringByAppendingPathComponent(path: filename)
+        let filename = key.ic.lastPathComponent
+        let regionKey = key.ic.stringByDeletingLastPathComponent.ic.stringByAppendingPathComponent(path: regionCode)
+        return regionKey.ic.stringByAppendingPathComponent(path: filename)
     }
     
     private func canonicalLanguageKey(key: String) -> String {
@@ -104,9 +104,9 @@ public class ICThemeInfo: NSObject {
             return key
         }
         
-        let filename = key.ic_lastPathComponent
-        let resKey = key.ic_stringByDeletingLastPathComponent.ic_stringByAppendingPathComponent(path: languageCode)
-        return resKey.ic_stringByAppendingPathComponent(path: filename)
+        let filename = key.ic.lastPathComponent
+        let resKey = key.ic.stringByDeletingLastPathComponent.ic.stringByAppendingPathComponent(path: languageCode)
+        return resKey.ic.stringByAppendingPathComponent(path: filename)
     }
     
     //--------------------------- Images ------------------------
@@ -199,7 +199,7 @@ public class ICThemeInfo: NSObject {
             return nil
         }
         
-        let path = self.baseDir.ic_stringByAppendingPathComponent(path: key)
+        let path = self.baseDir.ic.stringByAppendingPathComponent(path: key)
         if FileManager.default.fileExists(atPath: path) {
             return try? Data(contentsOf: URL(fileURLWithPath: path))
         }

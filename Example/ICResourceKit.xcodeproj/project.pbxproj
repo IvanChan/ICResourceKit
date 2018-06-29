@@ -31,7 +31,7 @@
 		7B14A17E4AA32F0754DE70A0 /* Pods-ICResourceKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ICResourceKit_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ICResourceKit_Example/Pods-ICResourceKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		95397C2E79264C90874B7755 /* Pods_ICResourceKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ICResourceKit_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E0EE8CD201B144B000DA8E6 /* MyResource */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MyResource; sourceTree = "<group>"; };
-		B32210A56C26B1AB80A4950C /* ICResourceKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = ICResourceKit.podspec; path = ../ICResourceKit.podspec; sourceTree = "<group>"; };
+		B32210A56C26B1AB80A4950C /* ICResourceKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = ICResourceKit.podspec; path = ../ICResourceKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		C83E7F8DAF0E76D112303C94 /* Pods_ICResourceKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ICResourceKit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FED2632446A1A2F2EC3DAFA5 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -132,7 +132,6 @@
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
 				D06A8953650B42694D0862E1 /* [CP] Embed Pods Frameworks */,
-				21145C1DFF36258537951420 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -192,21 +191,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		21145C1DFF36258537951420 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ICResourceKit_Example/Pods-ICResourceKit_Example-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		BD266CE288A101C6D3FA0B8A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

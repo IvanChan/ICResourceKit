@@ -24,7 +24,7 @@ public class ICThemeManager: ICObserverTable {
     public static let shared = ICThemeManager()
     
     private(set) lazy var baseTheme:ICThemeInfo = {
-        let themeInfo = ICThemeInfo(name: ICPresetTheme.day.rawValue, mode: .day, type: .preset, baseDir: ICResEnvironmentConfigurator.shared.fullResMainPath.ic_stringByAppendingPathComponent(path: "Themes/Day"))
+        let themeInfo = ICThemeInfo(name: ICPresetTheme.day.rawValue, mode: .day, type: .preset, baseDir: ICResEnvironmentConfigurator.shared.fullResMainPath.ic.stringByAppendingPathComponent(path: "Themes/Day"))
         return themeInfo
     }()
     
@@ -61,11 +61,11 @@ public class ICThemeManager: ICObserverTable {
             nextTheme = self.baseTheme
             break
         case ICPresetTheme.night.rawValue:
-            nextTheme = ICThemeInfo(name: ICPresetTheme.night.rawValue, mode: .night, type: .preset, baseDir: ICResEnvironmentConfigurator.shared.fullResMainPath.ic_stringByAppendingPathComponent(path: "Themes/Night"))
+            nextTheme = ICThemeInfo(name: ICPresetTheme.night.rawValue, mode: .night, type: .preset, baseDir: ICResEnvironmentConfigurator.shared.fullResMainPath.ic.stringByAppendingPathComponent(path: "Themes/Night"))
             break
         default:
             if let downloadedPath = ICResEnvironmentConfigurator.shared.downloadedSkinMainPath {
-                let path = downloadedPath.ic_stringByAppendingPathComponent(path: named)
+                let path = downloadedPath.ic.stringByAppendingPathComponent(path: named)
                 if FileManager.default.fileExists(atPath: path) {
                     
                     // Maybe we should check whether data is valid
