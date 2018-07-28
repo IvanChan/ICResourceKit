@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ICResourceKit'
-  s.version          = '0.6.0'
+  s.version          = '0.6.1'
   s.summary          = 'A Theme/Language/Region manager with UIKit extensions.'
 
 # This description is used to generate tags and improve search results.

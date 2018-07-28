@@ -30,7 +30,7 @@ extension UIView {
         objc_setAssociatedObject(self, key, resHash, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
     
-    internal func ic_setResValue(_ value:Any, forKey:String) {
+    open func ic_setResValue(_ value:Any, forKey:String) {
         var resHash = self.ic_resHash()
         resHash[forKey] = value
         
@@ -47,13 +47,13 @@ extension UIView {
         self.backgroundColor = resGetColor(key)
     }
     
-    @objc func didThemeChanged() {
+    @objc open func didThemeChanged() {
         if let bgColorResKey:String = self.ic_resValue(UIView.ICBackgroundColorResKey) as? String {
             self.backgroundColor = resGetColor(bgColorResKey)
         }
     }
     
-    @objc func didLanguageChanged() {
+    @objc open func didLanguageChanged() {
         
     }
 }
@@ -66,7 +66,7 @@ extension UIButton {
     private static let ICImageHashKey = "ICImageHashKey"
     private static let ICBgImageHashKey = "ICBgImageHashKey"
 
-    internal func ic_resStateHash(_ key: String) -> [UInt:String] {
+    open func ic_resStateHash(_ key: String) -> [UInt:String] {
         var hash:[UInt:String]? = self.ic_resValue(key) as? [UInt:String]
         if hash == nil {
             hash = [:]
@@ -75,7 +75,7 @@ extension UIButton {
         return hash!
     }
     
-    internal func ic_saveResKey(_ key:String, forHashKey: String) {
+    open func ic_saveResKey(_ key:String, forHashKey: String) {
         var hash = self.ic_resStateHash(forHashKey)
         hash[state.rawValue] = key
         
@@ -106,7 +106,7 @@ extension UIButton {
         self.setBackgroundImage(resGetImage(key), for: state)
     }
     
-    override func didThemeChanged() {
+    override open func didThemeChanged() {
         super.didThemeChanged()
         
         for (key, value) in self.ic_resStateHash(UIButton.ICTitleColorHashKey) {
@@ -122,7 +122,7 @@ extension UIButton {
         }
     }
     
-    override func didLanguageChanged() {
+    override open func didLanguageChanged() {
         super.didLanguageChanged()
 
         for (key, value) in self.ic_resStateHash(UIButton.ICTitleHashKey) {
@@ -149,7 +149,7 @@ extension UILabel {
         ICResTextManager.shared.addObserver(self)
     }
 
-    override func didThemeChanged() {
+    override open func didThemeChanged() {
         super.didThemeChanged()
         
         if let textColorKey:String = self.ic_resValue(UILabel.ICTextColorResKey) as? String {
@@ -157,7 +157,7 @@ extension UILabel {
         }
     }
     
-    override func didLanguageChanged() {
+    override open func didLanguageChanged() {
         super.didLanguageChanged()
         
         if let key:String = self.ic_resValue(UILabel.ICTextResKey) as? String {
@@ -185,7 +185,7 @@ extension UITextField {
         ICResTextManager.shared.addObserver(self)
     }
     
-    override func didThemeChanged() {
+    override open func didThemeChanged() {
         super.didThemeChanged()
         
         if let textColorKey:String = self.ic_resValue(UITextField.ICTextColorResKey) as? String {
@@ -193,7 +193,7 @@ extension UITextField {
         }
     }
     
-    override func didLanguageChanged() {
+    override open func didLanguageChanged() {
         super.didLanguageChanged()
         
         if let key:String = self.ic_resValue(UITextField.ICTextResKey) as? String {
@@ -211,7 +211,7 @@ extension UIImageView {
         self.image = resGetImage(key)
     }
     
-    override func didThemeChanged() {
+    override open func didThemeChanged() {
         super.didThemeChanged()
         
         if let key:String = self.ic_resValue(UIImageView.ICImageResKey) as? String {
